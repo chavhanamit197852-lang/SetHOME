@@ -2,9 +2,12 @@ package com.sethome.sethome.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -28,8 +31,25 @@ public class Room {
 
     private String image;
 
+    @Enumerated(EnumType.STRING)
+    private RoomStatus status;
+
+    @PrePersist
+    protected void onCreate() {
+
+        if (status == null) {
+            status = RoomStatus.PENDING;
+        }
+    }
+
+    // Getters and Setters
+
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -78,5 +98,13 @@ public class Room {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public RoomStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(RoomStatus status) {
+        this.status = status;
     }
 }

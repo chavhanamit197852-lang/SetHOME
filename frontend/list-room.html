@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>List Your Room | SetHome</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <link rel="stylesheet" href="css/animations.css">
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <header class="site-header">
+
+        <div class="container nav-wrap">
+
+            <a href="index.html" class="brand">
+                SetHome
+            </a>
+
+            <button
+                class="nav-toggle"
+                id="navToggle"
+                aria-label="Open navigation"
+            >
+                ☰
+            </button>
+
+            <nav class="site-nav" id="siteNav">
+
+                <a href="index.html">
+                    Home
+                </a>
+
+                <a href="about.html">
+                    About Us
+                </a>
+
+                <a href="contact.html">
+                    Contact Us
+                </a>
+
+                <a
+                    href="list-room.html"
+                    class="nav-list-room"
+                >
+                    List Your Room
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+    <!-- PAGE HERO -->
+
+    <section class="page-hero">
+
+        <div class="container">
+
+            <h1>
+                List Your Room
+            </h1>
+
+            <p>
+                Find the right tenant for your room,
+                apartment or PG in Lohegaon.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- FORM SECTION -->
+
+    <main>
+
+        <section class="section">
+
+            <div class="container">
+
+                <div class="form-card">
+
+                    <div class="form-heading">
+
+                        <span class="eyebrow">
+                            Property Listing
+                        </span>
+
+                        <h2>
+                            Tell us about your property
+                        </h2>
+
+                        <p>
+                            Your listing will be reviewed by
+                            the SetHome admin team before it
+                            becomes visible on the website.
+                        </p>
+
+                    </div>
+
+
+                    <form
+                        id="roomForm"
+                        class="contact-form"
+                    >
+
+                        <!-- TITLE -->
+
+                        <label>
+
+                            Property Title
+
+                            <input
+                                type="text"
+                                name="title"
+                                placeholder="Example: Spacious 1 BHK near Lohegaon"
+                                required
+                            >
+
+                        </label>
+
+
+                        <!-- PRICE -->
+
+                        <label>
+
+                            Monthly Rent
+
+                            <input
+                                type="text"
+                                name="price"
+                                placeholder="Example: ₹12,000/month"
+                                required
+                            >
+
+                        </label>
+
+
+                        <!-- LOCATION -->
+
+                        <label>
+
+                            Location
+
+                            <input
+                                type="text"
+                                name="location"
+                                placeholder="Example: Lohegaon, Pune"
+                                required
+                            >
+
+                        </label>
+
+
+                        <!-- TYPE -->
+
+                        <label>
+
+                            Property Type
+
+                            <select
+                                name="type"
+                                required
+                            >
+
+                                <option value="">
+                                    Select property type
+                                </option>
+
+                                <option value="Single Room">
+                                    Single Room
+                                </option>
+
+                                <option value="Studio Apartment">
+                                    Studio Apartment
+                                </option>
+
+                                <option value="1 BHK">
+                                    1 BHK
+                                </option>
+
+                                <option value="2 BHK">
+                                    2 BHK
+                                </option>
+
+                                <option value="3 BHK">
+                                    3 BHK
+                                </option>
+
+                                <option value="PG Accommodation">
+                                    PG Accommodation
+                                </option>
+
+                            </select>
+
+                        </label>
+
+
+                        <!-- DESCRIPTION -->
+
+                        <label>
+
+                            Description
+
+                            <textarea
+                                name="description"
+                                rows="7"
+                                placeholder="Describe the property, facilities, nearby places, parking, furnishing, etc."
+                                required
+                            ></textarea>
+
+                        </label>
+
+
+                        <!-- IMAGE -->
+
+                        <label>
+
+                            Image URL
+
+                            <input
+                                type="text"
+                                name="image"
+                                placeholder="Example: images/room-1.jpg"
+                            >
+
+                        </label>
+
+
+                        <!-- SUBMIT -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+                            Submit Listing
+                        </button>
+
+
+                        <!-- STATUS -->
+
+                        <p
+                            id="roomFormStatus"
+                            class="form-status"
+                            aria-live="polite"
+                        ></p>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+
+    <footer class="site-footer">
+
+        <div class="container">
+
+            <p>
+                © 2026 SetHome. All rights reserved.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <script src="js/list-room.js"></script>
+
+</body>
+
+</html>

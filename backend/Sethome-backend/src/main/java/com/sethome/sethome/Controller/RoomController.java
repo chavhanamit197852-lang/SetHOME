@@ -30,22 +30,30 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    // Add a new room
+    // PUBLIC: Add room
     @PostMapping
     public ResponseEntity<Room> addRoom(@RequestBody Room room) {
+
         Room savedRoom = roomService.addRoom(room);
-        return ResponseEntity.status(HttpStatus.CREATED).body(savedRoom);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(savedRoom);
     }
 
-    // Get all rooms
+    // PUBLIC: Get only APPROVED rooms
     @GetMapping
     public ResponseEntity<List<Room>> getAllRooms() {
-        return ResponseEntity.ok(roomService.getAllRooms());
+
+        return ResponseEntity.ok(
+                roomService.getApprovedRooms()
+        );
     }
 
-    // Get one room
+    // Get room by ID
     @GetMapping("/{id}")
-    public ResponseEntity<Room> getRoomById(@PathVariable Long id) {
+    public ResponseEntity<Room> getRoomById(
+            @PathVariable Long id) {
 
         Room room = roomService.getRoomById(id);
 
@@ -56,9 +64,10 @@ public class RoomController {
         return ResponseEntity.ok(room);
     }
 
-    // Delete a room
+    // Delete room
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRoom(
+            @PathVariable Long id) {
 
         Room room = roomService.getRoomById(id);
 
