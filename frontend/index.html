@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="RoomFinder - Find your perfect room in Lohegaon, Pune.">
+  <title>RoomFinder — Lohegaon, Pune</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <header class="site-header" id="top">
+    <nav class="navbar container">
+      <a class="brand" href="index.html" aria-label="RoomFinder home">
+        <span class="brand-mark">R</span>
+        <span>RoomFinder</span>
+      </a>
+      <div class="location-pill">📍 Lohegaon, Pune</div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a class="active" href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-orb orb-one"></div>
+      <div class="hero-orb orb-two"></div>
+      <div class="hero-content container reveal">
+        <span class="eyebrow">ROOMS • PG • APARTMENTS</span>
+        <h1>Find Your Perfect Room in Lohegaon, Pune</h1>
+        <p>Browse verified listings, connect directly with owners, and find your ideal rental home today.</p>
+        <div class="hero-actions">
+          <a class="btn btn-light" href="#featured">Browse Rooms</a>
+          <a class="btn btn-outline-light" href="contact.html">List Your Room</a>
+        </div>
+        <form class="search-box" id="searchForm">
+          <span class="search-icon">⌕</span>
+          <input id="searchInput" type="search" placeholder="Lohegaon, Pune" aria-label="Search rooms">
+          <button type="submit">Search</button>
+        </form>
+        <p class="search-status" id="searchStatus" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="section section-muted" id="featured">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow blue">FEATURED</span>
+          <h2>Featured Rooms</h2>
+          <p>Discover the best rental options in Lohegaon, Pune. All listings are verified and regularly updated.</p>
+        </div>
+        <div class="listing-grid" id="listingGrid"></div>
+        <div class="center reveal">
+          <button class="btn btn-primary" id="viewAllBtn">View All Listings</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="section how-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow blue">SIMPLE PROCESS</span>
+          <h2>How It Works</h2>
+          <p>Finding your ideal room in Lohegaon is simple with our easy 3-step process.</p>
+        </div>
+        <div class="steps">
+          <article class="step reveal">
+            <div class="step-icon">⌕</div>
+            <h3>Search</h3>
+            <p>Browse through our verified listings in Lohegaon, Pune.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step-icon">⌂</div>
+            <h3>View Details</h3>
+            <p>Explore room features, amenities, and location information.</p>
+          </article>
+          <article class="step reveal">
+            <div class="step-icon">☎</div>
+            <h3>Contact Owner</h3>
+            <p>Connect directly with property owners to arrange viewings.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-muted testimonials-section">
+      <div class="container">
+        <div class="section-heading reveal">
+          <span class="eyebrow blue">TESTIMONIALS</span>
+          <h2>What People Say</h2>
+          <p>Don't just take our word for it — hear from our satisfied users.</p>
+        </div>
+        <div class="testimonial-grid">
+          <article class="testimonial reveal">
+            <div class="avatar">RS</div>
+            <h3>Rahul Sharma</h3>
+            <span>Software Engineer</span>
+            <div class="stars">★★★★★</div>
+            <p>Found my perfect apartment in just 3 days. The listings were accurate and the contact process was seamless.</p>
+          </article>
+          <article class="testimonial reveal">
+            <div class="avatar">PP</div>
+            <h3>Priya Patel</h3>
+            <span>College Student</span>
+            <div class="stars">★★★★★</div>
+            <p>As a student new to Pune, this platform helped me find affordable accommodation near my college. Highly recommended!</p>
+          </article>
+          <article class="testimonial reveal">
+            <div class="avatar">AD</div>
+            <h3>Amit Desai</h3>
+            <span>IT Professional</span>
+            <div class="stars">★★★★★</div>
+            <p>Listed my property and found tenants within a week. The process was straightforward and hassle-free.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div>
+        <a class="brand footer-brand" href="index.html"><span class="brand-mark">R</span><span>RoomFinder</span></a>
+        <p>Find verified rooms, PGs and apartments in Lohegaon, Pune.</p>
+      </div>
+      <div>
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="contact.html">Contact Us</a>
+      </div>
+      <div>
+        <h3>Room Types</h3>
+        <span>Single Rooms</span><span>PG Accommodation</span><span>1/2/3 BHK Apartments</span>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <span>📍 Lohegaon, Pune</span><span>📞 +91 98765 43210</span><span>✉ hello@roomfinder.in</span>
+      </div>
+    </div>
+    <div class="footer-bottom">© 2026 RoomFinder. All rights reserved.</div>
+  </footer>
+
+  <div class="modal" id="propertyModal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button class="modal-close" data-close-modal aria-label="Close">×</button>
+      <img id="modalImage" src="images/room-1.svg" alt="">
+      <div class="modal-body">
+        <span class="price-badge" id="modalPrice"></span>
+        <h2 id="modalTitle"></h2>
+        <p id="modalLocation"></p>
+        <p id="modalType"></p>
+        <p id="modalDescription"></p>
+        <a class="btn btn-primary full-width" href="contact.html">Contact Owner</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/listings.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

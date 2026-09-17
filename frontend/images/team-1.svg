@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="700" viewBox="0 0 900 700">
+<rect width="900" height="700" fill="#eff6ff"/>
+<circle cx="450" cy="270" r="120" fill="#bfdbfe"/>
+<circle cx="450" cy="245" r="62" fill="#93c5fd"/>
+<path d="M270 590c30-130 110-190 180-190s150 60 180 190" fill="#60a5fa"/>
+<text x="450" y="650" text-anchor="middle" font-family="Arial" font-size="30" font-weight="700" fill="#2563eb">TEAM 1 PLACEHOLDER</text>
+</svg>

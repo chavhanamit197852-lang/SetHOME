@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us — RoomFinder</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="navbar container">
+      <a class="brand" href="index.html"><span class="brand-mark">R</span><span>RoomFinder</span></a>
+      <div class="location-pill">📍 Lohegaon, Pune</div>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a><a href="about.html">About Us</a><a class="active" href="contact.html">Contact Us</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="contact-hero">
+      <div class="container reveal">
+        <span class="eyebrow blue">GET IN TOUCH</span>
+        <h1>Contact Us</h1>
+        <p>Have a question, want to list a room, or need help? Send us a message.</p>
+      </div>
+    </section>
+
+    <section class="section contact-section">
+      <div class="container contact-grid">
+        <div class="contact-card reveal">
+          <span class="eyebrow blue">MESSAGE US</span>
+          <h2>Send Us a Message</h2>
+          <form id="contactForm" class="contact-form">
+            <label>Name<input name="name" type="text" placeholder="Your name" required></label>
+            <label>Email<input name="email" type="email" placeholder="you@example.com" required></label>
+            <label>Phone<input name="phone" type="tel" placeholder="+91 98765 43210"></label>
+            <label>Message<textarea name="message" rows="6" placeholder="How can we help?" required></textarea></label>
+            <button class="btn btn-primary" type="submit">Send Message</button>
+            <p class="form-status" id="formStatus" aria-live="polite"></p>
+          </form>
+        </div>
+
+        <div class="contact-side">
+          <div class="info-card reveal">
+            <span class="eyebrow blue">OTHER WAYS TO CONNECT</span>
+            <h2>Let's Talk</h2>
+            <div class="contact-item"><strong>📍 Location</strong><span>Lohegaon, Pune, Maharashtra</span></div>
+            <div class="contact-item"><strong>📞 Phone</strong><span>+91 98765 43210</span></div>
+            <div class="contact-item"><strong>✉ Email</strong><span>hello@roomfinder.in</span></div>
+            <div class="contact-item"><strong>◷ Hours</strong><span>Mon–Sat, 9:00 AM–6:00 PM</span></div>
+          </div>
+          <div class="map-card reveal">
+            <div class="fake-map">
+              <div class="map-grid"></div>
+              <div class="map-pin">📍</div>
+              <div class="map-label">Lohegaon, Pune</div>
+            </div>
+            <small>Map placeholder — replace with your preferred map integration later.</small>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <div><a class="brand footer-brand" href="index.html"><span class="brand-mark">R</span><span>RoomFinder</span></a><p>Find verified rooms, PGs and apartments in Lohegaon, Pune.</p></div>
+      <div><h3>Quick Links</h3><a href="index.html">Home</a><a href="about.html">About Us</a><a href="contact.html">Contact Us</a></div>
+      <div><h3>Room Types</h3><span>Single Rooms</span><span>PG Accommodation</span><span>1/2/3 BHK Apartments</span></div>
+      <div><h3>Contact</h3><span>📍 Lohegaon, Pune</span><span>📞 +91 98765 43210</span><span>✉ hello@roomfinder.in</span></div>
+    </div>
+    <div class="footer-bottom">© 2026 RoomFinder. All rights reserved.</div>
+  </footer>
+  <script src="js/main.js"></script>
+</body>
+</html>
