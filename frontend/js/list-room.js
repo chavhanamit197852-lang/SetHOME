@@ -160,7 +160,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
                     const response =
                         await fetch(
-                            "http://localhost:8080/api/rooms",
+                            "http://localhost:8080/api/vendor/rooms",
                             {
                                 method: "POST",
 

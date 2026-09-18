@@ -34,6 +34,18 @@ public class Room {
     @Enumerated(EnumType.STRING)
     private RoomStatus status;
 
+    /*
+     * Vendor who owns this listing.
+     * We store the authenticated Vendor email.
+     */
+    private String vendorEmail;
+
+    /*
+     * Reason provided by Admin when a listing is rejected.
+     */
+    @Column(columnDefinition = "TEXT")
+    private String rejectionReason;
+
     @PrePersist
     protected void onCreate() {
 
@@ -106,5 +118,21 @@ public class Room {
 
     public void setStatus(RoomStatus status) {
         this.status = status;
+    }
+
+    public String getVendorEmail() {
+        return vendorEmail;
+    }
+
+    public void setVendorEmail(String vendorEmail) {
+        this.vendorEmail = vendorEmail;
+    }
+
+    public String getRejectionReason() {
+        return rejectionReason;
+    }
+
+    public void setRejectionReason(String rejectionReason) {
+        this.rejectionReason = rejectionReason;
     }
 }

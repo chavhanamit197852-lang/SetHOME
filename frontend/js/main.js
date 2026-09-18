@@ -1,31 +1,137 @@
-function updateListingVisibility(user) {
-    const listRoomNav = document.getElementById("listRoomNav");
-    const listRoomHero = document.getElementById("listRoomHero");
+const API_BASE_URL = "http://localhost:8080";
 
-    if (!listRoomNav && !listRoomHero) {
-        return;
+function escapeHtml(value) {
+    if (value === null || value === undefined) {
+        return "";
     }
 
-    // USER should not see "List Your Room"
-    if (user && user.role === "USER") {
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+function updateListingVisibility(user) {
+
+    const listRoomNav =
+        document.getElementById("listRoomNav");
+
+    const listRoomHero =
+        document.getElementById("listRoomHero");
+
+
+    /*
+     * ==========================================
+     * NOT LOGGED IN
+     * ==========================================
+     */
+
+    if (!user) {
+
         if (listRoomNav) {
-            listRoomNav.style.display = "none";
+
+            listRoomNav.href =
+                "login.html?role=VENDOR&redirect=list-room.html";
+
         }
 
         if (listRoomHero) {
-            listRoomHero.style.display = "none";
+
+            listRoomHero.href =
+                "login.html?role=VENDOR&redirect=list-room.html";
+
         }
 
         return;
     }
 
-    // Guests, VENDORS and ADMINS can see it
+
+    /*
+     * ==========================================
+     * VENDOR
+     * ==========================================
+     */
+
+    if (user.role === "VENDOR") {
+
+        if (listRoomNav) {
+
+            listRoomNav.href =
+                "list-room.html";
+
+        }
+
+        if (listRoomHero) {
+
+            listRoomHero.href =
+                "list-room.html";
+
+        }
+
+        return;
+    }
+
+
+    /*
+     * ==========================================
+     * RENTER / USER
+     * ==========================================
+     */
+
+    if (user.role === "USER") {
+
     if (listRoomNav) {
-        listRoomNav.style.display = "";
+        listRoomNav.style.display = "none";
     }
 
     if (listRoomHero) {
-        listRoomHero.style.display = "";
+        listRoomHero.style.display = "none";
+    }
+
+    return;
+}
+
+
+    /*
+     * ==========================================
+     * ADMIN
+     * ==========================================
+     */
+
+    if (user.role === "ADMIN") {
+
+        if (listRoomNav) {
+
+            listRoomNav.href = "#";
+
+            listRoomNav.onclick =
+                function (event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Admin accounts cannot list rooms as Vendors."
+                    );
+                };
+        }
+
+
+        if (listRoomHero) {
+
+            listRoomHero.href = "#";
+
+            listRoomHero.onclick =
+                function (event) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Admin accounts cannot list rooms as Vendors."
+                    );
+                };
+        }
     }
 }
 
@@ -63,7 +169,7 @@ async function checkLoginSession() {
 
         console.log("Logged-in user:", data.user);
 
-        showLoggedInState(authLinks, data.user);
+        showLoggedInState(data.user);
         updateListingVisibility(data.user);
 
     } catch (error) {
@@ -83,46 +189,33 @@ function showLoggedOutState(authLinks) {
 
 
 // Show user information when logged in
-function showLoggedInState(authLinks, user) {
+function showLoggedInState(user) {
+    const authLinks = document.getElementById("authLinks");
+
+    if (!authLinks) return;
+
     authLinks.innerHTML = `
-        <span class="user-name">
-            👤 ${user.name}
-        </span>
+        <span class="user-name">👤 ${escapeHtml(user.name)}</span>
 
-        <a href="#" id="profileLink">
-            My Profile
-        </a>
+        ${
+            user.role === "ADMIN"
+                ? `<a href="admin.html" class="admin-dashboard-link">Admin Dashboard</a>`
+                : ""
+        }
 
-        <button
-            type="button"
-            class="logout-btn"
-            id="logoutBtn"
-        >
+        <a href="#" id="profileLink">My Profile</a>
+
+        <button type="button"
+                class="logout-btn"
+                id="logoutBtn">
             Logout
         </button>
     `;
 
-    // Logout button
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (logoutBtn) {
         logoutBtn.addEventListener("click", logoutUser);
-    }
-
-    // Temporary profile display
-    const profileLink = document.getElementById("profileLink");
-
-    if (profileLink) {
-        profileLink.addEventListener("click", event => {
-            event.preventDefault();
-
-            alert(
-                `Name: ${user.name}\n` +
-                `Email: ${user.email}\n` +
-                `Phone: ${user.phone}\n` +
-                `Role: ${user.role}`
-            );
-        });
     }
 }
 

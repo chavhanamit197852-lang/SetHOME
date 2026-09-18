@@ -2,86 +2,111 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Admin Dashboard | SetHome</title>
 
     <link rel="stylesheet" href="css/style.css">
-
 </head>
 
 <body>
 
-    <header class="site-header">
+<header class="site-header">
 
-        <div class="container nav-wrap">
+    <nav class="navbar container">
 
-            <a href="index.html" class="brand">
-                SetHome Admin
-            </a>
+        <a href="admin.html" class="brand">
+            <span class="brand-mark">S</span>
+            <span>SetHome Admin</span>
+        </a>
 
-            <a
-                href="index.html"
-                class="btn btn-primary"
-            >
+        <div class="admin-nav-actions">
+
+            <a href="index.html" class="btn btn-primary">
                 View Website
             </a>
 
+            <button
+                type="button"
+                class="btn btn-secondary"
+                id="adminLogoutBtn"
+            >
+                Logout
+            </button>
+
         </div>
 
-    </header>
+    </nav>
+
+</header>
 
 
-    <main>
+<main>
 
-        <section class="section">
+    <section class="page-hero">
+        <div class="container">
 
-            <div class="container">
+            <span class="eyebrow">
+                ADMINISTRATION
+            </span>
 
-                <div class="form-heading">
+            <h1>Admin Dashboard</h1>
 
-                    <span class="eyebrow">
-                        Administration
+            <p>
+                Review and manage submitted room listings.
+            </p>
+
+        </div>
+    </section>
+
+
+    <section class="section section-muted">
+
+        <div class="container">
+
+            <div class="admin-welcome">
+                <div>
+                    <span class="eyebrow blue">
+                        ROOM MANAGEMENT
                     </span>
 
-                    <h1>
-                        Room Listings
-                    </h1>
+                    <h2>Pending Listings</h2>
 
                     <p>
-                        Review submitted room listings
-                        before publishing them.
+                        Review vendor submissions before they become public.
                     </p>
-
                 </div>
 
-
-                <div
-                    id="adminStatus"
-                    class="form-status"
-                ></div>
-
-
-                <div
-                    id="pendingRooms"
-                    class="listings-grid"
+                <button
+                    type="button"
+                    class="btn btn-primary"
+                    id="refreshRoomsBtn"
                 >
-                </div>
-
+                    Refresh
+                </button>
             </div>
 
-        </section>
 
-    </main>
+            <div
+                id="adminStatus"
+                class="form-status"
+            ></div>
 
 
-    <script src="js/admin.js"></script>
+            <div
+                id="pendingRooms"
+                class="admin-room-grid"
+            ></div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/admin.js"></script>
 
 </body>
 

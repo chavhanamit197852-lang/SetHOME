@@ -100,6 +100,19 @@ if (loginForm) {
                     "Login successful:",
                     user
                 );
+                const sessionCheck = await fetch(
+    "http://localhost:8080/api/auth/me",
+    {
+        method: "GET",
+        credentials: "include"
+    }
+);
+
+console.log(
+    "SESSION AFTER LOGIN:",
+    sessionCheck.status,
+    await sessionCheck.text()
+);
 
 
                 /*

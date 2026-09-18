@@ -10,4 +10,8 @@ import com.sethome.sethome.model.RoomStatus;
 public interface RoomRepository extends JpaRepository<Room, Long> {
 
     List<Room> findByStatus(RoomStatus status);
+
+    List<Room> findByVendorEmail(String vendorEmail);
+
+    List<Room> findByVendorEmailIgnoreCase(String vendorEmail);
 }

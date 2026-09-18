@@ -1,12 +1,14 @@
 package com.sethome.sethome.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +29,10 @@ public class AdminRoomController {
         this.roomService = roomService;
     }
 
-    // Get pending rooms
+    // ============================================================
+    // GET PENDING ROOMS
+    // ============================================================
+
     @GetMapping("/pending")
     public ResponseEntity<List<Room>> getPendingRooms() {
 
@@ -36,10 +41,14 @@ public class AdminRoomController {
         );
     }
 
-    // Approve
+    // ============================================================
+    // APPROVE ROOM
+    // ============================================================
+
     @PatchMapping("/{id}/approve")
     public ResponseEntity<Room> approveRoom(
-            @PathVariable Long id) {
+            @PathVariable Long id
+    ) {
 
         Room room = roomService.approveRoom(id);
 
@@ -50,12 +59,23 @@ public class AdminRoomController {
         return ResponseEntity.ok(room);
     }
 
-    // Reject
+    // ============================================================
+    // REJECT ROOM
+    // ============================================================
+
     @PatchMapping("/{id}/reject")
     public ResponseEntity<Room> rejectRoom(
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            @RequestBody(required = false) Map<String, String> request
+    ) {
 
-        Room room = roomService.rejectRoom(id);
+        String reason = null;
+
+        if (request != null) {
+            reason = request.get("reason");
+        }
+
+        Room room = roomService.rejectRoom(id, reason);
 
         if (room == null) {
             return ResponseEntity.notFound().build();

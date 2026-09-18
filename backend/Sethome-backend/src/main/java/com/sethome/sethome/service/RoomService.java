@@ -17,7 +17,7 @@ public class RoomService {
         this.roomRepository = roomRepository;
     }
 
-    // Add new room
+    // Existing generic room creation
     public Room addRoom(Room room) {
 
         room.setStatus(RoomStatus.PENDING);
@@ -25,42 +25,84 @@ public class RoomService {
         return roomRepository.save(room);
     }
 
-    // Get only approved rooms
-    public List<Room> getApprovedRooms() {
+    // Vendor creates a new listing
+    public Room createVendorRoom(
+            Room room,
+            String vendorEmail
+    ) {
 
-        return roomRepository.findByStatus(RoomStatus.APPROVED);
+        room.setId(null);
+
+        room.setVendorEmail(
+                vendorEmail.trim().toLowerCase()
+        );
+
+        room.setStatus(RoomStatus.PENDING);
+
+        room.setRejectionReason(null);
+
+        return roomRepository.save(room);
     }
 
-    // Get pending rooms
+    // Public website: approved rooms only
+    public List<Room> getApprovedRooms() {
+
+        return roomRepository.findByStatus(
+                RoomStatus.APPROVED
+        );
+    }
+
+    // Admin: pending rooms
     public List<Room> getPendingRooms() {
 
-        return roomRepository.findByStatus(RoomStatus.PENDING);
+        return roomRepository.findByStatus(
+                RoomStatus.PENDING
+        );
     }
 
     // Get one room
     public Room getRoomById(Long id) {
 
-        return roomRepository.findById(id).orElse(null);
+        return roomRepository.findById(id)
+                .orElse(null);
+    }
+
+    // Vendor: get only own rooms
+    public List<Room> getVendorRooms(
+            String vendorEmail
+    ) {
+
+        return roomRepository.findByVendorEmailIgnoreCase(
+                vendorEmail.trim().toLowerCase()
+        );
     }
 
     // Approve room
     public Room approveRoom(Long id) {
 
-        Room room = roomRepository.findById(id).orElse(null);
+        Room room =
+                roomRepository.findById(id)
+                        .orElse(null);
 
         if (room == null) {
             return null;
         }
 
         room.setStatus(RoomStatus.APPROVED);
+        room.setRejectionReason(null);
 
         return roomRepository.save(room);
     }
 
     // Reject room
-    public Room rejectRoom(Long id) {
+    public Room rejectRoom(
+            Long id,
+            String rejectionReason
+    ) {
 
-        Room room = roomRepository.findById(id).orElse(null);
+        Room room =
+                roomRepository.findById(id)
+                        .orElse(null);
 
         if (room == null) {
             return null;
@@ -68,7 +110,20 @@ public class RoomService {
 
         room.setStatus(RoomStatus.REJECTED);
 
+        room.setRejectionReason(
+                rejectionReason
+        );
+
         return roomRepository.save(room);
+    }
+
+    // Existing simple reject method
+    public Room rejectRoom(Long id) {
+
+        return rejectRoom(
+                id,
+                "Listing rejected by admin."
+        );
     }
 
     // Delete room

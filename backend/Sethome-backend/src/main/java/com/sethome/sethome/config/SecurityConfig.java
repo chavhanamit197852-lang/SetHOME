@@ -155,41 +155,34 @@ public class SecurityConfig {
                         // Public endpoints
                         // --------------------------------
 
-                        .requestMatchers(
-                                "/",
-                                "/error",
-                                "/api/auth/**",
-                                "/api/rooms",
-                                "/api/rooms/**",
-                                "/api/contact"
-                        ).permitAll()
+        .requestMatchers(
+                "/",
+                "/error",
+                "/api/auth/**",
+                "/api/contact"
+        ).permitAll()
 
+        // Public room browsing
+        .requestMatchers(
+                org.springframework.http.HttpMethod.GET,
+                "/api/rooms",
+                "/api/rooms/**"
+        ).permitAll()
 
-                        // --------------------------------
-                        // ADMIN
-                        // --------------------------------
+        // Admin
+        .requestMatchers(
+                "/api/admin/**"
+        ).hasRole("ADMIN")
 
-                        .requestMatchers(
-                                "/api/admin/**"
-                        ).hasRole("ADMIN")
+        // Vendor
+        .requestMatchers(
+                "/api/vendor/**"
+        ).hasRole("VENDOR")
 
-
-                        // --------------------------------
-                        // VENDOR
-                        // --------------------------------
-
-                        .requestMatchers(
-                                "/api/vendor/**"
-                        ).hasRole("VENDOR")
-
-
-                        // --------------------------------
-                        // USER
-                        // --------------------------------
-
-                        .requestMatchers(
-                                "/api/user/**"
-                        ).hasRole("USER")
+        // Renter
+        .requestMatchers(
+                "/api/user/**"
+        ).hasRole("USER")
 
 
                         // --------------------------------

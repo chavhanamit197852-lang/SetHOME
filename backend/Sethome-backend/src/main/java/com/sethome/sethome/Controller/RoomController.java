@@ -2,14 +2,10 @@ package com.sethome.sethome.controller;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,18 +26,10 @@ public class RoomController {
         this.roomService = roomService;
     }
 
-    // PUBLIC: Add room
-    @PostMapping
-    public ResponseEntity<Room> addRoom(@RequestBody Room room) {
-
-        Room savedRoom = roomService.addRoom(room);
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(savedRoom);
-    }
-
-    // PUBLIC: Get only APPROVED rooms
+    /*
+     * PUBLIC:
+     * Get only APPROVED rooms.
+     */
     @GetMapping
     public ResponseEntity<List<Room>> getAllRooms() {
 
@@ -50,33 +38,48 @@ public class RoomController {
         );
     }
 
-    // Get room by ID
+    /*
+     * PUBLIC:
+     * Get one room.
+     *
+     * IMPORTANT:
+     * Only approved rooms should be exposed
+     * through the public endpoint.
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Room> getRoomById(
-            @PathVariable Long id) {
+            @PathVariable Long id
+    ) {
 
-        Room room = roomService.getRoomById(id);
+        Room room =
+                roomService.getRoomById(id);
 
         if (room == null) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity
+                    .notFound()
+                    .build();
+        }
+
+        /*
+         * Do not expose PENDING or REJECTED
+         * rooms publicly.
+         */
+        if (room.getStatus() == null ||
+                !room.getStatus().name().equals("APPROVED")) {
+
+            return ResponseEntity
+                    .notFound()
+                    .build();
         }
 
         return ResponseEntity.ok(room);
     }
 
-    // Delete room
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRoom(
-            @PathVariable Long id) {
-
-        Room room = roomService.getRoomById(id);
-
-        if (room == null) {
-            return ResponseEntity.notFound().build();
-        }
-
-        roomService.deleteRoom(id);
-
-        return ResponseEntity.noContent().build();
-    }
+    /*
+     * DELETE is intentionally NOT available
+     * through the public RoomController.
+     *
+     * Room deletion will be handled through
+     * authorized Vendor/Admin endpoints later.
+     */
 }
