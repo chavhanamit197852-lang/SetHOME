@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Request Home | SetHome</title>
+
+    <link
+        rel="stylesheet"
+        href="css/style.css"
+    >
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            SetHome
+        </a>
+
+        <nav class="site-nav">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About Us
+            </a>
+
+            <a href="contact.html">
+                Contact Us
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<main>
+
+    <section class="contact-page">
+
+        <div class="container">
+
+            <div class="section-heading">
+
+                <h1>
+                    Request This Home
+                </h1>
+
+                <p>
+                    Send your request to the SetHome team.
+                </p>
+
+            </div>
+
+
+            <div id="selectedRoom">
+                Loading home details...
+            </div>
+
+
+            <form
+                id="requestForm"
+                class="contact-form"
+            >
+
+                <div class="form-group">
+
+                    <label for="message">
+                        Message
+                    </label>
+
+                    <textarea
+                        id="message"
+                        name="message"
+                        rows="5"
+                        placeholder="Tell us when you would like to visit or any details you want to share."
+                        required
+                    ></textarea>
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="btn btn-primary"
+                >
+                    Send Home Request
+                </button>
+
+
+                <p
+                    id="requestStatus"
+                    class="form-status"
+                ></p>
+
+            </form>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/request-home.js"></script>
+
+</body>
+
+</html>

@@ -8,19 +8,64 @@
   <link rel="stylesheet" href="css/animations.css">
 </head>
 <body>
-  <header class="site-header">
+  <header class="site-header" id="top">
     <nav class="navbar container">
-      <a class="brand" href="index.html"><span class="brand-mark">R</span><span>RoomFinder</span></a>
-      <div class="location-pill">📍 Lohegaon, Pune</div>
-      <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
-      <div class="nav-links" id="navLinks">
-        <a href="index.html">Home</a><a href="about.html">About Us</a><a class="active" href="contact.html">Contact Us</a>
-        <a href="list-room.html">
-        List Your Room
+
+        <a class="brand" href="index.html">
+            <span class="brand-mark">R</span>
+            <span>RoomFinder</span>
         </a>
-      </div>
+
+        <div class="location-pill">
+            📍 Lohegaon, Pune
+        </div>
+
+        <button
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false"
+        >
+            ☰
+        </button>
+
+        <div class="nav-links" id="navLinks">
+
+            <a href="index.html">
+                Home
+            </a>
+
+            <a href="about.html">
+                About Us
+            </a>
+
+            <a
+                href="contact.html"
+                class="active"
+            >
+                Contact Us
+            </a>
+
+            <a
+                href="login.html?role=VENDOR&redirect=list-room.html"
+                id="listRoomNav"
+            >
+                List Your Room
+            </a>
+
+            <div
+                class="auth-links"
+                id="authLinks"
+            >
+                <a href="login.html">
+                    Login
+                </a>
+            </div>
+
+        </div>
+
     </nav>
-  </header>
+</header>
 
   <main>
     <section class="contact-hero">

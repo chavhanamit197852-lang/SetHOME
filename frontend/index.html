@@ -17,14 +17,21 @@
       </a>
       <div class="location-pill">📍 Lohegaon, Pune</div>
       <button class="menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false">☰</button>
-      <div class="nav-links" id="navLinks">
-        <a class="active" href="index.html">Home</a>
-        <a href="about.html">About Us</a>
-        <a href="contact.html">Contact Us</a>
-        <a href="list-room.html">
-        List Your Room
-        </a>
-      </div>
+      
+<div class="nav-links" id="navLinks">
+  <a class="active" href="index.html">Home</a>
+  <a href="about.html">About Us</a>
+  <a href="contact.html">Contact Us</a>
+  <a href="login.html?role=VENDOR&redirect=list-room.html" id="listRoomNav">
+    List Your Room
+</a>
+
+  <!-- Authentication controls -->
+  <div class="auth-links" id="authLinks">
+    <a href="login.html">Login</a>
+</div>
+</div>
+
     </nav>
   </header>
 
@@ -38,7 +45,9 @@
         <p>Browse verified listings, connect directly with owners, and find your ideal rental home today.</p>
         <div class="hero-actions">
           <a class="btn btn-light" href="#featured">Browse Rooms</a>
-          <a class="btn btn-outline-light" href="list-room.html">List Your Room</a>
+          <a href="login.html?role=VENDOR&redirect=list-room.html" id="listRoomHero">
+    List Your Room
+</a>
         </div>
         <form class="search-box" id="searchForm">
           <span class="search-icon">⌕</span>

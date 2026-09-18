@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Account | SetHome</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <main>
+
+        <section class="auth-page">
+
+            <div class="auth-card">
+
+                <div class="auth-header">
+                    <h1>Create Account</h1>
+
+                    <p>
+                        Join SetHome and find or list your perfect property.
+                    </p>
+                </div>
+
+
+                <form id="registerForm">
+
+                    <div class="form-group">
+
+                        <label for="name">
+                            Full Name
+                        </label>
+
+                        <input
+                            id="name"
+                            name="name"
+                            type="text"
+                            placeholder="Your full name"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="email">
+                            Email
+                        </label>
+
+                        <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            placeholder="you@example.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="phone">
+                            Phone
+                        </label>
+
+                        <input
+                            id="phone"
+                            name="phone"
+                            type="tel"
+                            placeholder="+91 98765 43210"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="Minimum 6 characters"
+                            required
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label>
+                            I want to:
+                        </label>
+
+
+                        <div class="role-options">
+
+                            <label class="role-option">
+
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value="USER"
+                                    checked
+                                >
+
+                                <span>
+                                    Find a Room
+                                </span>
+
+                            </label>
+
+
+                            <label class="role-option">
+
+                                <input
+                                    type="radio"
+                                    name="role"
+                                    value="VENDOR"
+                                >
+
+                                <span>
+                                    List a Property
+                                </span>
+
+                            </label>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-primary"
+                    >
+                        Create Account
+                    </button>
+
+
+                    <p
+                        id="registerStatus"
+                        class="form-status"
+                        aria-live="polite"
+                    ></p>
+
+                </form>
+
+
+                <div class="auth-footer">
+
+                    <p>
+                        Already have an account?
+                        <a href="login.html">
+                            Login
+                        </a>
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <script src="js/register.js"></script>
+
+</body>
+
+</html>
