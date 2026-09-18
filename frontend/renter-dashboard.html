@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Renter Dashboard | SetHome</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+<header class="site-header">
+
+    <div class="container nav-wrap">
+
+        <a href="index.html" class="brand">
+            SetHome
+        </a>
+
+        <div class="vendor-nav-actions">
+
+            <a href="index.html" class="btn btn-secondary">
+                Browse Rooms
+            </a>
+
+            <button
+                type="button"
+                id="renterLogoutBtn"
+                class="logout-btn"
+            >
+                Logout
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<section class="section">
+
+<div class="container">
+
+    <div class="form-heading">
+
+        <span class="eyebrow">
+            Renter Panel
+        </span>
+
+        <h1>Renter Dashboard</h1>
+
+        <p id="renterWelcome">
+            Manage your room requests.
+        </p>
+
+    </div>
+
+
+    <!-- STATS -->
+
+    <div class="renter-stats">
+
+        <div class="renter-stat-card">
+            <span>Total Requests</span>
+            <strong id="totalRequests">0</strong>
+        </div>
+
+        <div class="renter-stat-card">
+            <span>Pending</span>
+            <strong id="pendingRequests">0</strong>
+        </div>
+
+        <div class="renter-stat-card">
+            <span>Approved</span>
+            <strong id="approvedRequests">0</strong>
+        </div>
+
+        <div class="renter-stat-card">
+            <span>Rejected</span>
+            <strong id="rejectedRequests">0</strong>
+        </div>
+
+    </div>
+
+
+    <!-- ACTION -->
+
+    <div class="renter-dashboard-actions">
+
+        <a
+            href="index.html#featured"
+            class="btn btn-primary"
+        >
+            Browse Available Rooms
+        </a>
+
+    </div>
+
+
+    <div
+        id="renterStatus"
+        class="form-status"
+    ></div>
+
+
+    <!-- REQUESTS -->
+
+    <div class="renter-section-heading">
+
+        <h2>My Room Requests</h2>
+
+        <p>
+            Track the status of rooms you have requested.
+        </p>
+
+    </div>
+
+
+    <div id="renterRequests">
+
+        <div class="renter-empty-card">
+
+            <div class="renter-empty-icon">
+                ⌂
+            </div>
+
+            <h3>No requests yet</h3>
+
+            <p>
+                Your room requests will appear here after
+                you submit your first request.
+            </p>
+
+            <a
+                href="index.html#featured"
+                class="btn btn-primary"
+            >
+                Find a Room
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
+
+</main>
+
+
+<script src="js/renter-dashboard.js"></script>
+
+</body>
+</html>

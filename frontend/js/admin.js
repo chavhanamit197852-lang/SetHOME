@@ -3,6 +3,17 @@ const API_BASE_URL = "http://localhost:8080";
 const pendingRooms =
     document.getElementById("pendingRooms");
 
+const homeRequests =
+    document.getElementById("homeRequests");
+
+const requestStatus =
+    document.getElementById("requestStatus");
+
+const refreshRequestsBtn =
+    document.getElementById("refreshRequestsBtn");
+
+    
+
 const adminStatus =
     document.getElementById("adminStatus");
 
@@ -528,6 +539,13 @@ if (adminLogoutBtn) {
     );
 }
 
+if (refreshRequestsBtn) {
+    refreshRequestsBtn.addEventListener(
+        "click",
+        loadHomeRequests
+    );
+}
+
 
 // ============================================================
 // INITIALIZE
@@ -538,14 +556,454 @@ async function initializeAdminDashboard() {
     const isAdmin =
         await checkAdminAccess();
 
-
     if (!isAdmin) {
         return;
     }
 
-
     await loadPendingRooms();
+    
+}
+
+initializeAdminDashboard();
+
+// ============================================================
+// LOAD RENTER HOME REQUESTS
+// ============================================================
+
+async function loadHomeRequests() {
+
+    if (!homeRequests) {
+        return;
+    }
+
+    requestStatus.textContent =
+        "Loading renter requests...";
+
+    requestStatus.className =
+        "form-status";
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/home-requests`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.href =
+                "login.html?role=ADMIN&redirect=admin.html";
+            return;
+        }
+
+        if (response.status === 403) {
+            alert("Admin access required.");
+            window.location.href = "index.html";
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error("Failed to load requests.");
+        }
+
+        const requests =
+            await response.json();
+
+        renderHomeRequests(requests);
+
+        requestStatus.textContent =
+            `${requests.length} renter request(s) found.`;
+
+    } catch (error) {
+
+        console.error(
+            "Home request loading error:",
+            error
+        );
+
+        requestStatus.textContent =
+            "Unable to load renter requests.";
+
+        requestStatus.className =
+            "form-status error";
+    }
 }
 
 
-initializeAdminDashboard();
+// ============================================================
+// RENDER RENTER REQUESTS
+// ============================================================
+
+function renderHomeRequests(requests) {
+
+    if (!homeRequests) {
+        return;
+    }
+
+    if (!requests.length) {
+
+        homeRequests.innerHTML = `
+            <div class="empty-state">
+                <p>No renter requests yet.</p>
+            </div>
+        `;
+
+        return;
+    }
+
+    homeRequests.innerHTML =
+        requests.map(request => `
+
+            <article class="admin-request-card">
+
+                <div class="admin-request-header">
+
+                    <div>
+                        <span class="eyebrow blue">
+                            Request #${request.requestId}
+                        </span>
+
+                        <h3>
+                            ${escapeHtml(
+                                request.roomTitle
+                            )}
+                        </h3>
+                    </div>
+
+                    <span class="
+                        admin-request-status
+                        status-${String(
+                            request.status
+                        ).toLowerCase()}
+                    ">
+                        ${escapeHtml(request.status)}
+                    </span>
+
+                </div>
+
+
+                <div class="admin-request-grid">
+
+                    <div>
+                        <strong>Renter</strong>
+                        <span>
+                            ${escapeHtml(request.name)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>Phone</strong>
+                        <span>
+                            ${escapeHtml(request.phone)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>Age</strong>
+                        <span>
+                            ${escapeHtml(request.age)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>Occupation</strong>
+                        <span>
+                            ${escapeHtml(request.occupation)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>Qualification</strong>
+                        <span>
+                            ${escapeHtml(request.qualification)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <strong>Pune Duration</strong>
+                        <span>
+                            ${escapeHtml(request.puneDuration)}
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="admin-request-room">
+
+                    <strong>Requested Room</strong>
+
+                    <p>
+                        ${escapeHtml(request.roomTitle)}
+                    </p>
+
+                    <span>
+                        📍 ${escapeHtml(request.roomLocation)}
+                    </span>
+
+                    <span>
+                        ₹${escapeHtml(request.roomPrice)}
+                    </span>
+
+                </div>
+
+
+                ${
+                    request.message
+                        ? `
+                            <div class="admin-request-message">
+                                <strong>Message</strong>
+                                <p>
+                                    ${escapeHtml(
+                                        request.message
+                                    )}
+                                </p>
+                            </div>
+                        `
+                        : ""
+                }
+
+
+                ${
+                    request.adminReason
+                        ? `
+                            <div class="admin-request-reason">
+                                <strong>Admin Reason</strong>
+                                <p>
+                                    ${escapeHtml(
+                                        request.adminReason
+                                    )}
+                                </p>
+                            </div>
+                        `
+                        : ""
+                }
+
+
+                <div class="admin-request-date">
+
+                    Submitted:
+                    ${formatRequestDate(
+                        request.createdAt
+                    )}
+
+                </div>
+
+
+                <div class="admin-actions">
+
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        onclick="
+                            updateHomeRequestStatus(
+                                ${request.requestId},
+                                'APPROVED'
+                            )
+                        "
+                    >
+                        Approve
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="
+                            rejectHomeRequest(
+                                ${request.requestId}
+                            )
+                        "
+                    >
+                        Reject
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary"
+                        onclick="
+                            updateHomeRequestStatus(
+                                ${request.requestId},
+                                'CONTACTED'
+                            )
+                        "
+                    >
+                        Mark Contacted
+                    </button>
+
+                </div>
+
+            </article>
+
+        `).join("");
+}
+
+
+// ============================================================
+// UPDATE REQUEST STATUS
+// ============================================================
+
+async function updateHomeRequestStatus(
+    id,
+    status
+) {
+
+    const confirmed = confirm(
+        `Are you sure you want to mark this request as ${status}?`
+    );
+
+    if (!confirmed) {
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/home-requests/${id}/status`,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    status: status,
+                    reason: null
+                })
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.href =
+                "login.html?role=ADMIN&redirect=admin.html";
+            return;
+        }
+
+        if (response.status === 403) {
+            alert("Admin access required.");
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                "Failed to update request."
+            );
+        }
+
+        alert(
+            `Request marked as ${status}.`
+        );
+
+        await loadHomeRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to update the renter request."
+        );
+    }
+}
+
+
+// ============================================================
+// REJECT RENTER REQUEST
+// ============================================================
+
+async function rejectHomeRequest(id) {
+
+    const reason = prompt(
+        "Enter the reason for rejecting this request:"
+    );
+
+    if (reason === null) {
+        return;
+    }
+
+    const trimmedReason =
+        reason.trim();
+
+    if (!trimmedReason) {
+        alert(
+            "A rejection reason is required."
+        );
+        return;
+    }
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/admin/home-requests/${id}/status`,
+            {
+                method: "PATCH",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+                    status: "REJECTED",
+                    reason: trimmedReason
+                })
+            }
+        );
+
+        if (response.status === 401) {
+            window.location.href =
+                "login.html?role=ADMIN&redirect=admin.html";
+            return;
+        }
+
+        if (response.status === 403) {
+            alert("Admin access required.");
+            return;
+        }
+
+        if (!response.ok) {
+            throw new Error(
+                "Rejection failed."
+            );
+        }
+
+        alert(
+            "Renter request rejected."
+        );
+
+        await loadHomeRequests();
+
+    } catch (error) {
+
+        console.error(error);
+
+        alert(
+            "Unable to reject the renter request."
+        );
+    }
+}
+
+
+// ============================================================
+// REQUEST DATE
+// ============================================================
+
+function formatRequestDate(value) {
+
+    if (!value) {
+        return "Unknown";
+    }
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return escapeHtml(value);
+    }
+
+    return date.toLocaleString();
+}

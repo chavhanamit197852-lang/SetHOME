@@ -1,54 +1,25 @@
-const params =
-    new URLSearchParams(
-        window.location.search
-    );
+const API_BASE_URL = "http://localhost:8080";
 
+const params = new URLSearchParams(window.location.search);
+const roomId = params.get("roomId");
 
-const roomId =
-    params.get("roomId");
+const selectedRoom = document.getElementById("selectedRoom");
+const requestForm = document.getElementById("requestForm");
+const requestStatus = document.getElementById("requestStatus");
+const submitRequestBtn = document.getElementById("submitRequestBtn");
 
-
-const selectedRoom =
-    document.getElementById(
-        "selectedRoom"
-    );
-
-
-const requestForm =
-    document.getElementById(
-        "requestForm"
-    );
-
-
-const requestStatus =
-    document.getElementById(
-        "requestStatus"
-    );
-
-
-/*
- * ==========================================
- * AUTHENTICATION CHECK
- * ==========================================
- */
 
 async function checkRenterAccess() {
 
     try {
 
-        const response =
-            await fetch(
-                "http://localhost:8080/api/auth/me",
-                {
-                    method: "GET",
-                    credentials: "include"
-                }
-            );
-
-
-        /*
-         * Not logged in
-         */
+        const response = await fetch(
+            `${API_BASE_URL}/api/auth/me`,
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
 
         if (!response.ok) {
 
@@ -58,15 +29,9 @@ async function checkRenterAccess() {
             return false;
         }
 
+        const data = await response.json();
 
-        const data =
-            await response.json();
-
-
-        if (
-            !data.success ||
-            !data.user
-        ) {
+        if (!data.success || !data.user) {
 
             window.location.href =
                 `login.html?role=USER&redirect=request-home.html&roomId=${encodeURIComponent(roomId || "")}`;
@@ -75,58 +40,35 @@ async function checkRenterAccess() {
         }
 
 
-        /*
-         * Vendor
-         */
-
-        if (
-            data.user.role === "VENDOR"
-        ) {
+        if (data.user.role === "VENDOR") {
 
             alert(
-                "You cannot request a home using a Vendor account.\n\nPlease login with a Renter account or create a Renter account."
+                "You cannot request a home using a Vendor account.\n\nPlease login with a Renter account."
             );
 
-            window.location.href =
-                "index.html";
+            window.location.href = "index.html";
 
             return false;
         }
 
 
-        /*
-         * Admin
-         */
-
-        if (
-            data.user.role === "ADMIN"
-        ) {
+        if (data.user.role === "ADMIN") {
 
             alert(
                 "Admin accounts cannot request homes.\n\nPlease use a Renter account."
             );
 
-            window.location.href =
-                "index.html";
+            window.location.href = "index.html";
 
             return false;
         }
 
 
-        /*
-         * Only USER can continue
-         */
+        if (data.user.role !== "USER") {
 
-        if (
-            data.user.role !== "USER"
-        ) {
+            alert("A Renter account is required to request a home.");
 
-            alert(
-                "A Renter account is required to request a home."
-            );
-
-            window.location.href =
-                "index.html";
+            window.location.href = "index.html";
 
             return false;
         }
@@ -141,7 +83,6 @@ async function checkRenterAccess() {
             error
         );
 
-
         window.location.href =
             `login.html?role=USER&redirect=request-home.html&roomId=${encodeURIComponent(roomId || "")}`;
 
@@ -149,12 +90,6 @@ async function checkRenterAccess() {
     }
 }
 
-
-/*
- * ==========================================
- * LOAD SELECTED ROOM
- * ==========================================
- */
 
 async function loadRoom() {
 
@@ -166,8 +101,7 @@ async function loadRoom() {
             </p>
         `;
 
-        requestForm.style.display =
-            "none";
+        requestForm.style.display = "none";
 
         return;
     }
@@ -175,45 +109,19 @@ async function loadRoom() {
 
     try {
 
-        const response =
-            await fetch(
-                "http://localhost:8080/api/rooms"
-            );
-
+        const response = await fetch(
+            `${API_BASE_URL}/api/rooms/${encodeURIComponent(roomId)}`
+        );
 
         if (!response.ok) {
 
             throw new Error(
-                "Could not load rooms."
+                "Could not load home."
             );
         }
 
 
-        const rooms =
-            await response.json();
-
-
-        const room =
-            rooms.find(
-                item =>
-                    String(item.id) ===
-                    String(roomId)
-            );
-
-
-        if (!room) {
-
-            selectedRoom.innerHTML = `
-                <p class="form-status error">
-                    This home is no longer available.
-                </p>
-            `;
-
-            requestForm.style.display =
-                "none";
-
-            return;
-        }
+        const room = await response.json();
 
 
         selectedRoom.innerHTML = `
@@ -223,8 +131,8 @@ async function loadRoom() {
                 <div class="listing-image-wrap">
 
                     <img
-                        src="${room.image}"
-                        alt="${room.title}"
+                        src="${escapeHtml(room.image || "")}"
+                        alt="${escapeHtml(room.title || "Home")}"
                     >
 
                 </div>
@@ -232,29 +140,28 @@ async function loadRoom() {
                 <div class="listing-content">
 
                     <h2>
-                        ${room.title}
+                        ${escapeHtml(room.title)}
                     </h2>
 
                     <p class="meta">
-                        ⌖ ${room.location}
+                        ⌖ ${escapeHtml(room.location)}
                     </p>
 
                     <p class="meta">
-                        ⌂ ${room.type}
+                        ⌂ ${escapeHtml(room.type)}
                     </p>
 
                     <p class="meta">
-                        ${room.price}
+                        ${escapeHtml(room.price)}
                     </p>
 
                     <p class="description">
-                        ${room.description}
+                        ${escapeHtml(room.description)}
                     </p>
 
                 </div>
 
             </div>
-
         `;
 
     } catch (error) {
@@ -264,21 +171,205 @@ async function loadRoom() {
             error
         );
 
-
         selectedRoom.innerHTML = `
             <p class="form-status error">
-                Could not load home details.
+                This home is no longer available.
             </p>
         `;
+
+        requestForm.style.display = "none";
     }
 }
 
 
-/*
- * ==========================================
- * INITIALIZE
- * ==========================================
- */
+function escapeHtml(value) {
+
+    if (
+        value === null ||
+        value === undefined
+    ) {
+        return "";
+    }
+
+    return String(value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+
+function showStatus(message, type) {
+
+    if (!requestStatus) {
+        return;
+    }
+
+    requestStatus.textContent = message;
+
+    requestStatus.className =
+        `form-status ${type}`;
+}
+
+
+async function submitHomeRequest(event) {
+
+    event.preventDefault();
+
+
+    if (!roomId) {
+
+        showStatus(
+            "No home was selected.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    const name =
+        document.getElementById("name")
+            .value
+            .trim();
+
+    const phone =
+        document.getElementById("phone")
+            .value
+            .trim();
+
+    const age =
+        document.getElementById("age")
+            .value;
+
+    const occupation =
+        document.getElementById("occupation")
+            .value
+            .trim();
+
+    const qualification =
+        document.getElementById("qualification")
+            .value
+            .trim();
+
+    const puneDuration =
+        document.getElementById("puneDuration")
+            .value;
+
+    const message =
+        document.getElementById("message")
+            .value
+            .trim();
+
+
+    if (
+        !name ||
+        !phone ||
+        !age ||
+        !occupation ||
+        !qualification ||
+        !puneDuration
+    ) {
+
+        showStatus(
+            "Please fill in all required fields.",
+            "error"
+        );
+
+        return;
+    }
+
+
+    submitRequestBtn.disabled = true;
+    submitRequestBtn.textContent = "Sending...";
+
+    showStatus(
+        "Submitting your request...",
+        ""
+    );
+
+
+    try {
+
+        const response = await fetch(
+            `${API_BASE_URL}/api/user/home-requests`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json"
+                },
+
+                credentials: "include",
+
+                body: JSON.stringify({
+
+                    roomId: Number(roomId),
+
+                    name: name,
+
+                    phone: phone,
+
+                    age: Number(age),
+
+                    occupation: occupation,
+
+                    qualification: qualification,
+
+                    puneDuration: puneDuration,
+
+                    message: message
+                })
+            }
+        );
+
+
+        const data =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            throw new Error(
+                data.message ||
+                "Unable to submit your request."
+            );
+        }
+
+
+        showStatus(
+            "Home request submitted successfully. The SetHome team will review it.",
+            "success"
+        );
+
+
+        requestForm.reset();
+
+
+    } catch (error) {
+
+        console.error(
+            "Home request submission error:",
+            error
+        );
+
+        showStatus(
+            error.message ||
+            "Unable to submit your request. Please try again.",
+            "error"
+        );
+
+    } finally {
+
+        submitRequestBtn.disabled = false;
+
+        submitRequestBtn.textContent =
+            "Send Home Request";
+    }
+}
+
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -286,7 +377,6 @@ document.addEventListener(
 
         const allowed =
             await checkRenterAccess();
-
 
         if (!allowed) {
             return;
@@ -303,33 +393,7 @@ document.addEventListener(
 
         requestForm.addEventListener(
             "submit",
-            async function (event) {
-
-                event.preventDefault();
-
-
-                requestStatus.textContent =
-                    "Sending your request...";
-
-                requestStatus.className =
-                    "form-status";
-
-
-                /*
-                 * Backend request endpoint
-                 * is not implemented yet.
-                 */
-
-                requestStatus.textContent =
-                    "Your home request has been recorded. The SetHome team will contact you.";
-
-                requestStatus.className =
-                    "form-status success";
-
-
-                requestForm.reset();
-            }
+            submitHomeRequest
         );
-
     }
 );

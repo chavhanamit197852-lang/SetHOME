@@ -28,25 +28,14 @@
         </a>
 
         <nav class="site-nav">
-
-            <a href="index.html">
-                Home
-            </a>
-
-            <a href="about.html">
-                About Us
-            </a>
-
-            <a href="contact.html">
-                Contact Us
-            </a>
-
+            <a href="index.html">Home</a>
+            <a href="about.html">About Us</a>
+            <a href="contact.html">Contact Us</a>
         </nav>
 
     </div>
 
 </header>
-
 
 <main>
 
@@ -61,16 +50,14 @@
                 </h1>
 
                 <p>
-                    Send your request to the SetHome team.
+                    Tell us a little about yourself and we'll review your request.
                 </p>
 
             </div>
 
-
             <div id="selectedRoom">
                 Loading home details...
             </div>
-
 
             <form
                 id="requestForm"
@@ -79,16 +66,124 @@
 
                 <div class="form-group">
 
+                    <label for="name">
+                        Full Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="phone">
+                        Phone Number
+                    </label>
+
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="age">
+                        Age
+                    </label>
+
+                    <input
+                        type="number"
+                        id="age"
+                        name="age"
+                        min="18"
+                        max="100"
+                        placeholder="Enter your age"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="occupation">
+                        Occupation
+                    </label>
+
+                    <input
+                        type="text"
+                        id="occupation"
+                        name="occupation"
+                        placeholder="e.g. Software Engineer"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="qualification">
+                        Qualification
+                    </label>
+
+                    <input
+                        type="text"
+                        id="qualification"
+                        name="qualification"
+                        placeholder="e.g. B.E. Computer Engineering"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="puneDuration">
+                        How long will you stay in Pune?
+                    </label>
+
+                    <select
+                        id="puneDuration"
+                        name="puneDuration"
+                        required
+                    >
+                        <option value="">Select duration</option>
+                        <option value="Less than 3 months">Less than 3 months</option>
+                        <option value="3-6 months">3-6 months</option>
+                        <option value="6-12 months">6-12 months</option>
+                        <option value="1-2 years">1-2 years</option>
+                        <option value="2+ years">2+ years</option>
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
                     <label for="message">
-                        Message
+                        Additional Message
                     </label>
 
                     <textarea
                         id="message"
                         name="message"
                         rows="5"
-                        placeholder="Tell us when you would like to visit or any details you want to share."
-                        required
+                        placeholder="Tell us when you would like to visit or any other details."
                     ></textarea>
 
                 </div>
@@ -97,6 +192,7 @@
                 <button
                     type="submit"
                     class="btn btn-primary"
+                    id="submitRequestBtn"
                 >
                     Send Home Request
                 </button>
@@ -114,7 +210,6 @@
     </section>
 
 </main>
-
 
 <script src="js/request-home.js"></script>
 
