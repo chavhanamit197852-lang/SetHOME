@@ -1168,3 +1168,202 @@ document.addEventListener(
         }
     }
 );
+
+async function loadRoomReviews(roomId) {
+    const reviewsList = document.getElementById("reviewsList");
+    const reviewSummary = document.getElementById("reviewSummary");
+
+    if (!reviewsList) return;
+
+    reviewsList.innerHTML =
+        '<p class="review-loading">Loading reviews...</p>';
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/api/reviews/room/${roomId}`
+        );
+
+        if (!response.ok) {
+            throw new Error("Failed to load reviews.");
+        }
+
+        const reviews = await response.json();
+
+        if (!reviews.length) {
+            reviewsList.innerHTML =
+                '<p class="review-empty">No reviews yet.</p>';
+
+            if (reviewSummary) {
+                reviewSummary.textContent = "No reviews";
+            }
+
+            return;
+        }
+
+        const average =
+            reviews.reduce(
+                (sum, review) => sum + Number(review.rating),
+                0
+            ) / reviews.length;
+
+        if (reviewSummary) {
+            reviewSummary.textContent =
+                `${average.toFixed(1)} / 5 · ${reviews.length} review${reviews.length === 1 ? "" : "s"}`;
+        }
+
+        reviewsList.innerHTML = reviews.map(review => `
+            <article class="review-card">
+                <div class="review-top">
+                    <strong>${escapeHtml(review.reviewerName)}</strong>
+                    <span class="review-stars">
+                        ${"★".repeat(Number(review.rating))}
+                        ${"☆".repeat(5 - Number(review.rating))}
+                    </span>
+                </div>
+
+                <p class="review-comment">
+                    ${escapeHtml(review.comment)}
+                </p>
+
+                <small>
+                    ${formatReviewDate(review.createdAt)}
+                </small>
+            </article>
+        `).join("");
+
+    } catch (error) {
+        console.error("Review loading error:", error);
+
+        reviewsList.innerHTML =
+            '<p class="review-error">Unable to load reviews.</p>';
+    }
+}
+
+function formatReviewDate(value) {
+    if (!value) return "";
+
+    const date = new Date(value);
+
+    if (Number.isNaN(date.getTime())) {
+        return escapeHtml(value);
+    }
+
+    return date.toLocaleDateString();
+}
+
+
+async function prepareReviewForm(roomId) {
+    const formWrap =
+        document.getElementById("reviewFormWrap");
+
+    const loginMessage =
+        document.getElementById("reviewLoginMessage");
+
+    if (!formWrap || !loginMessage) return;
+
+    formWrap.style.display = "none";
+    loginMessage.textContent = "";
+
+    try {
+        const response = await fetch(
+            `${API_BASE_URL}/api/auth/me`,
+            {
+                credentials: "include"
+            }
+        );
+
+        if (!response.ok) {
+            loginMessage.innerHTML =
+                'Please <a href="login.html">login</a> as a renter to write a review.';
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!data.success || !data.user) {
+            loginMessage.innerHTML =
+                'Please <a href="login.html">login</a> as a renter to write a review.';
+            return;
+        }
+
+        if (data.user.role !== "USER") {
+            loginMessage.textContent =
+                "Only renter accounts can submit reviews.";
+            return;
+        }
+
+        formWrap.style.display = "block";
+
+        document.getElementById("reviewRoomId").value = roomId;
+
+    } catch (error) {
+        console.error(error);
+
+        loginMessage.textContent =
+            "Unable to verify your account.";
+    }
+}
+
+const reviewForm =
+    document.getElementById("reviewForm");
+
+if (reviewForm) {
+    reviewForm.addEventListener("submit", async event => {
+        event.preventDefault();
+
+        const roomId =
+            Number(document.getElementById("reviewRoomId").value);
+
+        const rating =
+            Number(document.getElementById("reviewRating").value);
+
+        const comment =
+            document.getElementById("reviewComment")
+                .value
+                .trim();
+
+        const status =
+            document.getElementById("reviewFormStatus");
+
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/api/reviews`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    credentials: "include",
+                    body: JSON.stringify({
+                        roomId,
+                        rating,
+                        comment
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(
+                    data.message || "Unable to submit review."
+                );
+            }
+
+            status.textContent =
+                "Review submitted successfully.";
+
+            status.className =
+                "form-status success";
+
+            reviewForm.reset();
+
+            await loadRoomReviews(roomId);
+
+        } catch (error) {
+            status.textContent = error.message;
+            status.className =
+                "form-status error";
+        }
+    });
+}

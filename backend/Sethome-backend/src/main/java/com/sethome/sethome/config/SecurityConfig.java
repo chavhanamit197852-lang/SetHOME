@@ -169,6 +169,11 @@ public class SecurityConfig {
                 "/api/rooms/**"
         ).permitAll()
 
+        .requestMatchers(
+        org.springframework.http.HttpMethod.GET,
+        "/api/reviews/room/**"
+      ).permitAll()
+
         // Admin
         .requestMatchers(
                 "/api/admin/**"

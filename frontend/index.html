@@ -35,28 +35,81 @@
     </nav>
   </header>
 
+  
+
   <main>
+
     <section class="hero">
-      <div class="hero-orb orb-one"></div>
-      <div class="hero-orb orb-two"></div>
-      <div class="hero-content container reveal">
-        <span class="eyebrow">ROOMS • PG • APARTMENTS</span>
-        <h1>Find Your Perfect Room in Lohegaon, Pune</h1>
-        <p>Browse verified listings, connect directly with owners, and find your ideal rental home today.</p>
-        <div class="hero-actions">
-          <a class="btn btn-light" href="#featured">Browse Rooms</a>
-          <a href="login.html?role=VENDOR&redirect=list-room.html" id="listRoomHero">
-    List Your Room
-</a>
-        </div>
+
+    <div class="hero-background">
+        <img
+            src="images/sethomeimage1.png"
+            alt=""
+        >
+    </div>
+
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+
         <form class="search-box" id="searchForm">
-          <span class="search-icon">⌕</span>
-          <input id="searchInput" type="search" placeholder="Lohegaon, Pune" aria-label="Search rooms">
-          <button type="submit">Search</button>
+            <span class="search-icon">⌕</span>
+
+            <input
+                id="searchInput"
+                type="search"
+                placeholder="Lohegaon, Pune"
+                aria-label="Search rooms"
+            >
+
+            <button type="submit">Search</button>
         </form>
-        <p class="search-status" id="searchStatus" aria-live="polite"></p>
-      </div>
-    </section>
+
+        <p
+            class="search-status"
+            id="searchStatus"
+            aria-live="polite"
+        ></p>
+
+        <span class="eyebrow">
+            ROOMS • PG • APARTMENTS
+        </span>
+
+        <h1>
+            Find your perfect room
+            <span>in Lohegaon, Pune</span>
+        </h1>
+
+        <p>
+            Browse verified listings, connect directly with owners,
+            and find a place that feels like home.
+        </p>
+
+        <div class="hero-actions">
+
+            <a
+                href="#featured"
+                class="btn btn-primary"
+            >
+                Browse Rooms
+            </a>
+
+            <a
+                href="list-room.html"
+                id="listRoomHero"
+                class="btn btn-secondary"
+            >
+                List Your Room
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+    
+    
 
     <section class="section section-muted" id="featured">
       <div class="container">
@@ -99,38 +152,55 @@
       </div>
     </section>
 
-    <section class="section section-muted testimonials-section">
-      <div class="container">
-        <div class="section-heading reveal">
-          <span class="eyebrow blue">TESTIMONIALS</span>
-          <h2>What People Say</h2>
-          <p>Don't just take our word for it — hear from our satisfied users.</p>
-        </div>
-        <div class="testimonial-grid">
-          <article class="testimonial reveal">
-            <div class="avatar">RS</div>
-            <h3>Rahul Sharma</h3>
-            <span>Software Engineer</span>
-            <div class="stars">★★★★★</div>
-            <p>Found my perfect apartment in just 3 days. The listings were accurate and the contact process was seamless.</p>
-          </article>
-          <article class="testimonial reveal">
-            <div class="avatar">PP</div>
-            <h3>Priya Patel</h3>
-            <span>College Student</span>
-            <div class="stars">★★★★★</div>
-            <p>As a student new to Pune, this platform helped me find affordable accommodation near my college. Highly recommended!</p>
-          </article>
-          <article class="testimonial reveal">
-            <div class="avatar">AD</div>
-            <h3>Amit Desai</h3>
-            <span>IT Professional</span>
-            <div class="stars">★★★★★</div>
-            <p>Listed my property and found tenants within a week. The process was straightforward and hassle-free.</p>
-          </article>
-        </div>
-      </div>
-    </section>
+    <section class="reviews-section">
+    <div class="reviews-heading">
+        <h3>Reviews</h3>
+        <span id="reviewSummary">Loading...</span>
+    </div>
+
+    <div id="reviewsList">
+        <p class="review-loading">Loading reviews...</p>
+    </div>
+
+    <div id="reviewFormWrap" class="review-form-wrap" style="display:none;">
+        <h4>Write a Review</h4>
+
+        <form id="reviewForm">
+            <input type="hidden" id="reviewRoomId">
+
+            <label>
+                Rating
+                <select id="reviewRating" required>
+                    <option value="">Select rating</option>
+                    <option value="5">★★★★★ — 5</option>
+                    <option value="4">★★★★☆ — 4</option>
+                    <option value="3">★★★☆☆ — 3</option>
+                    <option value="2">★★☆☆☆ — 2</option>
+                    <option value="1">★☆☆☆☆ — 1</option>
+                </select>
+            </label>
+
+            <label>
+                Comment
+                <textarea
+                    id="reviewComment"
+                    maxlength="1000"
+                    required
+                    placeholder="Share your experience..."
+                ></textarea>
+            </label>
+
+            <button type="submit" class="btn btn-primary">
+                Submit Review
+            </button>
+
+            <p id="reviewFormStatus" class="form-status"></p>
+        </form>
+    </div>
+
+    <div id="reviewLoginMessage" class="review-login-message"></div>
+</section>
+
   </main>
 
   <footer class="footer">
