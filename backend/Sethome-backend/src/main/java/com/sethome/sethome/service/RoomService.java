@@ -3,6 +3,7 @@ package com.sethome.sethome.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.sethome.sethome.model.Room;
 import com.sethome.sethome.model.RoomStatus;
@@ -12,77 +13,65 @@ import com.sethome.sethome.repository.RoomRepository;
 public class RoomService {
 
     private final RoomRepository roomRepository;
+    private final RoomImageService roomImageService;
 
-    public RoomService(RoomRepository roomRepository) {
+    public RoomService(
+            RoomRepository roomRepository,
+            RoomImageService roomImageService
+    ) {
         this.roomRepository = roomRepository;
+        this.roomImageService = roomImageService;
     }
 
-    // Existing generic room creation
     public Room addRoom(Room room) {
-
         room.setStatus(RoomStatus.PENDING);
-
         return roomRepository.save(room);
     }
 
-    // Vendor creates a new listing
     public Room createVendorRoom(
             Room room,
             String vendorEmail
     ) {
-
         room.setId(null);
-
         room.setVendorEmail(
                 vendorEmail.trim().toLowerCase()
         );
-
         room.setStatus(RoomStatus.PENDING);
-
         room.setRejectionReason(null);
 
         return roomRepository.save(room);
     }
 
-    // Public website: approved rooms only
     public List<Room> getApprovedRooms() {
-
         return roomRepository.findByStatus(
                 RoomStatus.APPROVED
         );
     }
 
-    // Admin: pending rooms
     public List<Room> getPendingRooms() {
-
         return roomRepository.findByStatus(
                 RoomStatus.PENDING
         );
     }
 
-    // Get one room
     public Room getRoomById(Long id) {
-
         return roomRepository.findById(id)
                 .orElse(null);
     }
 
-    // Vendor: get only own rooms
     public List<Room> getVendorRooms(
             String vendorEmail
     ) {
-
         return roomRepository.findByVendorEmailIgnoreCase(
                 vendorEmail.trim().toLowerCase()
         );
     }
 
-    // Approve room
+    @Transactional
     public Room approveRoom(Long id) {
 
-        Room room =
-                roomRepository.findById(id)
-                        .orElse(null);
+        Room room = roomRepository.findById(id)
+                .orElse(null);
 
         if (room == null) {
             return null;
@@ -91,18 +80,22 @@ public class RoomService {
         room.setStatus(RoomStatus.APPROVED);
         room.setRejectionReason(null);
 
-        return roomRepository.save(room);
+        Room savedRoom = roomRepository.save(room);
+
+        // Room and all its images become APPROVED together.
+        roomImageService.approveImages(id);
+
+        return savedRoom;
     }
 
-    // Reject room
+    @Transactional
     public Room rejectRoom(
             Long id,
             String rejectionReason
     ) {
 
-        Room room =
-                roomRepository.findById(id)
-                        .orElse(null);
+        Room room = roomRepository.findById(id)
+                .orElse(null);
 
         if (room == null) {
             return null;
@@ -110,25 +103,35 @@ public class RoomService {
 
         room.setStatus(RoomStatus.REJECTED);
 
-        room.setRejectionReason(
-                rejectionReason
-        );
+        if (rejectionReason == null ||
+                rejectionReason.trim().isEmpty()) {
 
-        return roomRepository.save(room);
+            room.setRejectionReason(
+                    "Listing rejected by admin."
+            );
+
+        } else {
+            room.setRejectionReason(
+                    rejectionReason.trim()
+            );
+        }
+
+        Room savedRoom = roomRepository.save(room);
+
+        // Room and all its images become REJECTED together.
+        roomImageService.rejectImages(id);
+
+        return savedRoom;
     }
 
-    // Existing simple reject method
     public Room rejectRoom(Long id) {
-
         return rejectRoom(
                 id,
                 "Listing rejected by admin."
         );
     }
 
-    // Delete room
     public void deleteRoom(Long id) {
-
         roomRepository.deleteById(id);
     }
 }

@@ -1,5 +1,9 @@
 package com.sethome.sethome.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -7,12 +11,31 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "rooms")
 public class Room {
+
+
+    @OneToMany(
+        mappedBy = "room",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+)
+@OrderBy("displayOrder ASC")
+private List<RoomImage> images = new ArrayList<>();
+
+public List<RoomImage> getImages() {
+    return images;
+}
+
+public void setImages(List<RoomImage> images) {
+    this.images = images;
+}
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -135,4 +158,6 @@ public class Room {
     public void setRejectionReason(String rejectionReason) {
         this.rejectionReason = rejectionReason;
     }
+
+    
 }

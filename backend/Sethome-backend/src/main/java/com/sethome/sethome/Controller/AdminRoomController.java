@@ -25,31 +25,23 @@ public class AdminRoomController {
 
     private final RoomService roomService;
 
-    public AdminRoomController(RoomService roomService) {
+    public AdminRoomController(
+            RoomService roomService
+    ) {
         this.roomService = roomService;
     }
 
-    // ============================================================
-    // GET PENDING ROOMS
-    // ============================================================
-
     @GetMapping("/pending")
     public ResponseEntity<List<Room>> getPendingRooms() {
-
         return ResponseEntity.ok(
                 roomService.getPendingRooms()
         );
     }
 
-    // ============================================================
-    // APPROVE ROOM
-    // ============================================================
-
     @PatchMapping("/{id}/approve")
     public ResponseEntity<Room> approveRoom(
             @PathVariable Long id
     ) {
-
         Room room = roomService.approveRoom(id);
 
         if (room == null) {
@@ -59,14 +51,11 @@ public class AdminRoomController {
         return ResponseEntity.ok(room);
     }
 
-    // ============================================================
-    // REJECT ROOM
-    // ============================================================
-
     @PatchMapping("/{id}/reject")
     public ResponseEntity<Room> rejectRoom(
             @PathVariable Long id,
-            @RequestBody(required = false) Map<String, String> request
+            @RequestBody(required = false)
+            Map<String, String> request
     ) {
 
         String reason = null;
@@ -75,7 +64,10 @@ public class AdminRoomController {
             reason = request.get("reason");
         }
 
-        Room room = roomService.rejectRoom(id, reason);
+        Room room = roomService.rejectRoom(
+                id,
+                reason
+        );
 
         if (room == null) {
             return ResponseEntity.notFound().build();
